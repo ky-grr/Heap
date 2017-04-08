@@ -107,17 +107,6 @@ public class Heap<Type> implements Priority_Queue<Type>
 		//Bubble up.
 		this.bubbleUp();
 		
-		
-		//FIXME
-		// FILL IN
-		// if the array is full, double its capacity
-		// add the new item to the next available node in the tree, so that
-
-		// complete tree structure is maintained
-		// update size
-		// percolate the new item up the levels of the tree until heap order is restored
-
-		// It is STRONGLY recommended that you write a percolateUp helper method!
 	}
 	
 	/**
@@ -148,14 +137,8 @@ public class Heap<Type> implements Priority_Queue<Type>
 		if(size==1) {
 			return;
 		}
-		
-		if(this.comparator == null) {
-			
-			this.comparator = new ComparableComparator();
-		}
-
-			
-		while((comparator.compare(heap_array[index], heap_array[parent]) > 0)) {
+	
+		while((this.compare(heap_array[index], heap_array[parent]) > 0)) {
 			
 			this.swap(index, parent);
 			index = parent;
@@ -167,7 +150,7 @@ public class Heap<Type> implements Priority_Queue<Type>
 			parent = index/(int)2;
 			
 		}
-		}
+		
 		
 	}
 	
@@ -233,6 +216,7 @@ public class Heap<Type> implements Priority_Queue<Type>
 	 * user at construction time, or Comparable, if no Comparator was
 	 * provided.
 	 */
+	@SuppressWarnings("unchecked")
 	private int compare( Type lhs, Type rhs )
 	{
 		if (comparator == null)
@@ -313,12 +297,5 @@ public class Heap<Type> implements Priority_Queue<Type>
 		// If you do not fully implement this code, leave it blank
 
 	}
-	
-	public final class ComparableComparator<T extends Comparable<T>> implements Comparator<T> {
-		  @Override
-		  public int compare(T lhs, T rhs) {
-		    return lhs.compareTo(rhs);
-		  }  
-		}
 
 }
