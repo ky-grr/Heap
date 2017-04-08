@@ -148,7 +148,13 @@ public class Heap<Type> implements Priority_Queue<Type>
 		if(size==1) {
 			return;
 		}
-				
+		
+		if(this.comparator == null) {
+			
+			this.comparator = new ComparableComparator();
+		}
+
+			
 		while((comparator.compare(heap_array[index], heap_array[parent]) > 0)) {
 			
 			this.swap(index, parent);
@@ -160,6 +166,7 @@ public class Heap<Type> implements Priority_Queue<Type>
 			
 			parent = index/(int)2;
 			
+		}
 		}
 		
 	}
@@ -306,5 +313,12 @@ public class Heap<Type> implements Priority_Queue<Type>
 		// If you do not fully implement this code, leave it blank
 
 	}
+	
+	public final class ComparableComparator<T extends Comparable<T>> implements Comparator<T> {
+		  @Override
+		  public int compare(T lhs, T rhs) {
+		    return lhs.compareTo(rhs);
+		  }  
+		}
 
 }
