@@ -54,7 +54,6 @@ public class Heap<Type> implements Priority_Queue<Type>
 	 * 
 	 * Orders elements according to the input Comparator (i.e., AnyType need not be Comparable).
 	 */
-	@SuppressWarnings("unchecked")
 	public Heap( Comparator<? super Type> c )
 	{
 		super();
@@ -70,6 +69,8 @@ public class Heap<Type> implements Priority_Queue<Type>
 	 */
 	public Type dequeue() throws NoSuchElementException
 	{
+		
+		//FIXME
 		// FILL IN -- do not return null
 		// if the heap is empty, throw a NoSuchElementException
 		// store the minimum item so that it may be returned at the end
@@ -92,6 +93,22 @@ public class Heap<Type> implements Priority_Queue<Type>
 	 */
 	public void add( Type x )
 	{
+		
+		//Resize if necessary.
+		if(heap_array.length == size) {
+			this.resize();
+		}
+		
+		//Insert at end (size+1).
+		heap_array[size+1] = x;
+		
+		size++;
+		
+		//Bubble up.
+		this.bubbleUp();
+		
+		
+		//FIXME
 		// FILL IN
 		// if the array is full, double its capacity
 		// add the new item to the next available node in the tree, so that
@@ -104,12 +121,71 @@ public class Heap<Type> implements Priority_Queue<Type>
 	}
 	
 	/**
+	 * This function resizes the backing store by copying all of the array to a new array of a larger capacity.
+	 */
+	@SuppressWarnings("unchecked")
+	public void resize() {
+		
+		Type[] bigArray = (Type[]) new Object[heap_array.length*2];
+		
+		for(int index=0; index<heap_array.length; index++) {
+			bigArray[index] = heap_array[index];
+		}
+		
+		this.heap_array = bigArray;
+		
+	}
+	
+	/**
+	 * This function moves a newly added element to its proper location in the priority queue.
+	 * 
+	 */
+	public void bubbleUp() {
+		
+		int index = size;
+		int parent = index/(int)2;
+		
+		if(size==1) {
+			return;
+		}
+				
+		while((comparator.compare(heap_array[index], heap_array[parent]) > 0)) {
+			
+			this.swap(index, parent);
+			index = parent;
+			
+			if(index == 1) {
+				return;
+			}
+			
+			parent = index/(int)2;
+			
+		}
+		
+	}
+	
+	/**
+	 * This function swaps the data found at the passed indices in the backing store.
+	 * 
+	 * @param itemOne, the first item to be swapped
+	 * @param itemTwo, the second item to be swapped
+	 */
+	public void swap(int itemOne, int itemTwo) {
+		
+		Type temp = heap_array[itemTwo];
+		
+		heap_array[itemTwo] = heap_array[itemOne];
+		heap_array[itemOne] = temp;
+		
+	}
+	
+	/**
 	 * @return the smallest element the queue. 
 	 * @throws NoSuchElementException if this priority queue is empty. (Must run in constant time.)
 	 */
 	public Type peek() {
 		
-		
+		//FIXME
 		return null;
 		
 	}
@@ -118,7 +194,7 @@ public class Heap<Type> implements Priority_Queue<Type>
 	 * Makes this priority queue empty. 
 	 */
 	public void clear() {
-		
+		//FIXME
 	}
 	
 	/**
@@ -209,6 +285,8 @@ public class Heap<Type> implements Priority_Queue<Type>
 	 */
 	public void build_heap_from_array( Type[] array )
 	{
+		
+		//FIXME
 		// WARNING: advanced work only worth 2.5% of grade
 		// If you do not fully implement this code, leave it blank
 	}
@@ -223,6 +301,7 @@ public class Heap<Type> implements Priority_Queue<Type>
 	 */
 	public void heap_sort()
 	{
+		//FIXME
 		// WARNING: advanced work only worth 2.5% of grade
 		// If you do not fully implement this code, leave it blank
 
