@@ -70,16 +70,33 @@ public class Heap<Type> implements Priority_Queue<Type>
 	public Type dequeue() throws NoSuchElementException
 	{
 		
-		//FIXME
-		// FILL IN -- do not return null
-		// if the heap is empty, throw a NoSuchElementException
-		// store the minimum item so that it may be returned at the end
-		// replace the item at minIndex with the last item in the tree
-		// update size
-		// percolate the item at minIndex down the tree until heap order is restored
-		// It is STRONGLY recommended that you write a percolateDown helper method!
-		// return the minimum item that was stored
-		return null;
+		if(size==0) {
+			throw new NoSuchElementException();
+		}
+		
+		int spacesToLook = size/2 - 1;
+		
+		int indexOfMinimumValue = 0;
+		Type minimumValue = heap_array[size];
+		
+		for(int index=size-1; index>spacesToLook; index--) {
+			
+			if(this.compare(heap_array[index], minimumValue) < 0) {
+				minimumValue = heap_array[index];
+				indexOfMinimumValue = index;
+			}
+			
+		}
+		
+		heap_array[indexOfMinimumValue] = heap_array[size];
+		heap_array[size] = null;
+		
+		size--;
+		
+		this.bubbleUp(indexOfMinimumValue);
+		
+		return minimumValue;
+
 	}
 
 	/**
@@ -105,7 +122,7 @@ public class Heap<Type> implements Priority_Queue<Type>
 		size++;
 		
 		//Bubble up.
-		this.bubbleUp();
+		this.bubbleUp(size);
 		
 	}
 	
@@ -129,9 +146,8 @@ public class Heap<Type> implements Priority_Queue<Type>
 	 * This function moves a newly added element to its proper location in the priority queue.
 	 * 
 	 */
-	public void bubbleUp() {
+	public void bubbleUp(int index) {
 		
-		int index = size;
 		int parent = index/(int)2;
 		
 		if(size==1) {
@@ -175,8 +191,22 @@ public class Heap<Type> implements Priority_Queue<Type>
 	 */
 	public Type peek() {
 		
-		//FIXME
-		return null;
+		if(size==0) {
+			throw new NoSuchElementException();
+		}
+		
+		int spacesToLook = size/2 - 1;
+		Type minimumValue = heap_array[size];
+		
+		for(int index=size-1; index>spacesToLook; index--) {
+			
+			if(this.compare(heap_array[index], minimumValue) < 0) {
+				minimumValue = heap_array[index];
+			}
+			
+		}
+		
+		return minimumValue;
 		
 	}
 	
@@ -184,7 +214,13 @@ public class Heap<Type> implements Priority_Queue<Type>
 	 * Makes this priority queue empty. 
 	 */
 	public void clear() {
-		//FIXME
+		
+		for(int index=1; index<heap_array.length; index++) {
+			heap_array[index] = null;
+		}
+		
+		this.size = 0;
+		
 	}
 	
 	/**
