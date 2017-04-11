@@ -28,7 +28,7 @@ public class Heap<Type> implements Priority_Queue<Type>
 	 * WARNING: to simplify math, you are to use a 1 INDEXED array. (this means you ignore 0 bucket) and
 	 * the capacity of the array has to be 1 larger
 	 */
-	private Type[]					heap_array;
+	protected Type[]					heap_array;
 
 	/**
 	 * If the user provides a comparator, use it instead of default comparable
@@ -59,9 +59,8 @@ public class Heap<Type> implements Priority_Queue<Type>
 		super();
 		comparator = c;
 	}
-
-	/*
-	 * 
+	
+	/**
 	 * Removes and returns the minimum item in this priority queue.
 	 * 
 	 * @throws NoSuchElementException if this priority queue is empty.
@@ -143,8 +142,10 @@ public class Heap<Type> implements Priority_Queue<Type>
 	}
 	
 	/**
-	 * This function moves a newly added element to its proper location in the priority queue.
+	 * This function moves a newly added element to its proper location in the priority queue by moving
+	 * it up if it is smaller than its parent.
 	 * 
+	 * @param index, the index to begin bubbling up
 	 */
 	public void bubbleUp(int index) {
 		
@@ -154,7 +155,7 @@ public class Heap<Type> implements Priority_Queue<Type>
 			return;
 		}
 	
-		while((this.compare(heap_array[index], heap_array[parent]) > 0)) {
+		while((this.compare(heap_array[index], heap_array[parent]) < 0)) {
 			
 			this.swap(index, parent);
 			index = parent;
@@ -167,6 +168,43 @@ public class Heap<Type> implements Priority_Queue<Type>
 			
 		}
 		
+	}
+	
+	
+	/**
+	 * This function moves an element down in the queue if it is greater than its child.
+	 * 
+	 */
+	public void bubbleDown(int index) {
+		
+		int childOne = index * 2;
+		int childTwo = childOne + 1;
+		
+		int minimumChild = 0;
+		
+		if(size==1) {
+			return;
+		}
+		
+		if(this.compare(heap_array[childOne], heap_array[childTwo]) > 0) {
+			minimumChild = childOne;
+		} else {
+			minimumChild = childTwo;
+		}
+		
+		while((this.compare(heap_array[index], heap_array[minimumChild]) > 0)) {
+			
+			this.swap(index, minimumChild);
+			index = minimumChild;
+			
+			if(index >= size) {
+				return;
+			}
+			
+			//FIXME
+			index *= 2;
+			
+		}
 		
 	}
 	
@@ -328,6 +366,10 @@ public class Heap<Type> implements Priority_Queue<Type>
 	 */
 	public void heap_sort()
 	{
+		
+		//build heap
+		//dequeue heap, add to array
+		
 		//FIXME
 		// WARNING: advanced work only worth 2.5% of grade
 		// If you do not fully implement this code, leave it blank
