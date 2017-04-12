@@ -232,7 +232,7 @@ public class Heap<Type> implements Priority_Queue<Type>
 		int childTwo = 0;
 		int minimumChild = 0;
 		
-		while(heap_array[index*2] != null && (index*2 <= size)) {
+		while(heap_array[index*2] != null && (index*2 >= size)) {
 			
 			childOne = index * 2;
 			childTwo = childOne + 1;
