@@ -203,58 +203,46 @@ public class Heap<Type> implements Priority_Queue<Type>
 	 */
 	public void bubbleDown(int index) {
 		
-		int childOne = index * 2;
-		int childTwo = childOne + 1;
-		
-		int minimumChild = 0;
-		
+		//If there is only one element in the heap, you are finished.
 		if(size==1) {
 			return;
 		}
 		
-		//Choose the smallest child.
-		if(this.compare(heap_array[childOne], heap_array[childTwo]) < 0) {
-			minimumChild = childOne;
-		} else {
-			minimumChild = childTwo;
-		}
+		//Traversing variables.
+		int childOne = 0;
+		int childTwo = 0;
+		int minimumChild = 0;
 		
-		while((this.compare(heap_array[index], heap_array[minimumChild]) > 0)) {
-			
-			this.swap(index, minimumChild);
-			index = minimumChild;
-
-			index *= 2;
+		while(heap_array[index*2] != null) {
 			
 			childOne = index * 2;
 			childTwo = childOne + 1;
 			
-			if(childOne > size || childTwo > size) {
-				return;
-			}
-			
-			minimumChild = 0;
-			
-			if(heap_array[childOne] == null && heap_array[childTwo] == null) {
-				return;
-			}
-			
-			if(heap_array[childOne] == null && this.compare(heap_array[index], heap_array[childOne]) > 0) {
-				this.swap(index, childOne);
-				return;
-			}
-			
-			if(heap_array[childTwo] == null && this.compare(heap_array[index], heap_array[childTwo]) > 0) {
-				this.swap(index, childTwo);
-				return;
-			}
-			
-			//Choose the smallest child.
-			if(this.compare(heap_array[childOne], heap_array[childTwo]) < 0) {
+			//Start with the left child.
+			if(heap_array[childOne] != null) {
 				minimumChild = childOne;
-			} else {
-				minimumChild = childTwo;
 			}
+			
+			//If there is a right child, compare it with the left to find the minimum value.
+			if(heap_array[childTwo] != null) {
+				if(this.compare(heap_array[childOne], heap_array[childTwo]) > 0) {
+					
+					minimumChild = childOne;
+				}
+			}
+
+			//If the parent is greater than the child, swap; otherwise, we are finished bubbling down.
+			if(this.compare(heap_array[index], heap_array[minimumChild]) > 0) {
+				
+				this.swap(index, minimumChild);
+				index = minimumChild;
+			
+			} else {
+				
+				return;
+			}
+			
+			index = minimumChild;
 			
 		}
 		
@@ -285,18 +273,7 @@ public class Heap<Type> implements Priority_Queue<Type>
 			throw new NoSuchElementException();
 		}
 		
-		int spacesToLook = size/2 - 1;
-		Type minimumValue = heap_array[size];
-		
-		for(int index=size-1; index>spacesToLook; index--) {
-			
-			if(this.compare(heap_array[index], minimumValue) < 0) {
-				minimumValue = heap_array[index];
-			}
-			
-		}
-		
-		return minimumValue;
+		return heap_array[1];
 		
 	}
 	
