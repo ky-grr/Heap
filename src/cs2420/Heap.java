@@ -34,6 +34,13 @@ public class Heap<Type> implements Priority_Queue<Type>
 	 * If the user provides a comparator, use it instead of default comparable
 	 */
 	private Comparator<? super Type>	comparator;
+	
+	/**
+	 * This field is used for timing analysis purposes to record the number
+	 * of times an inserted element must actually be moved up through the
+	 * heap (numberofBubbleUps++ for every one element, no more).
+	 */
+	public int							numberOfBubbleUps;
 
 	/**
 	 * Constructs an empty priority queue. Orders elements according
@@ -137,7 +144,7 @@ public class Heap<Type> implements Priority_Queue<Type>
 	{
 		
 		//Resize if necessary.
-		if(heap_array.length == size) {
+		if(heap_array.length-1 == size) {
 			this.resize();
 		}
 		
@@ -177,21 +184,33 @@ public class Heap<Type> implements Priority_Queue<Type>
 		
 		int parent = index/(int)2;
 		
+		//Used for timing analysis; if the element must be moved, set to true.
+		boolean bubbledUp = false;
+		
 		if(size==1) {
 			return;
 		}
 	
+		//Move the element up while it is less than its parent element.
 		while((this.compare(heap_array[index], heap_array[parent]) < 0)) {
+			
+			bubbledUp = true;
 			
 			this.swap(index, parent);
 			index = parent;
 			
+			//If we have reached the top, stop bubbling.
 			if(index == 1) {
 				return;
 			}
 			
 			parent = index/(int)2;
 			
+		}
+		
+		//Increment our bubble counter if necessary.
+		if(bubbledUp) {
+			this.numberOfBubbleUps++;
 		}
 		
 	}
@@ -213,7 +232,7 @@ public class Heap<Type> implements Priority_Queue<Type>
 		int childTwo = 0;
 		int minimumChild = 0;
 		
-		while(heap_array[index*2] != null) {
+		while(heap_array[index*2] != null && (index*2 >= size)) {
 			
 			childOne = index * 2;
 			childTwo = childOne + 1;
