@@ -63,10 +63,13 @@ public class Heap<Type> implements Priority_Queue<Type>
 	/**
 	 * Removes and returns the minimum item in this priority queue.
 	 * 
+	 * This O(N) dequeue function has been kept to compare timing
+	 * with the efficient O(logN) dequeue below.
+	 * 
 	 * @throws NoSuchElementException if this priority queue is empty.
-	 * (Runs in logarithmic time.)
+	 * (Runs in N time.)
 	 */
-	public Type dequeue() throws NoSuchElementException
+	public Type inefficientDequeue() throws NoSuchElementException
 	{
 		
 		if(size==0) {
@@ -96,6 +99,29 @@ public class Heap<Type> implements Priority_Queue<Type>
 		
 		return minimumValue;
 
+	}
+	
+	/**
+	 * Removes and returns the minimum item in this priority queue.
+	 * 
+	 * @throws NoSuchElementException if this priority queue is empty.
+	 * (Runs in logarithmic time.)
+	 */
+	public Type dequeue() throws NoSuchElementException {
+		
+		if(size==0) {
+			throw new NoSuchElementException();
+		}
+		
+		Type returnType = heap_array[1];
+		
+		heap_array[1] = heap_array[size];
+		
+		this.bubbleDown(1);
+		size--;
+		
+		return returnType;
+		
 	}
 
 	/**
@@ -186,7 +212,8 @@ public class Heap<Type> implements Priority_Queue<Type>
 			return;
 		}
 		
-		if(this.compare(heap_array[childOne], heap_array[childTwo]) > 0) {
+		//Choose the smallest child.
+		if(this.compare(heap_array[childOne], heap_array[childTwo]) < 0) {
 			minimumChild = childOne;
 		} else {
 			minimumChild = childTwo;
@@ -196,13 +223,38 @@ public class Heap<Type> implements Priority_Queue<Type>
 			
 			this.swap(index, minimumChild);
 			index = minimumChild;
+
+			index *= 2;
 			
-			if(index >= size) {
+			childOne = index * 2;
+			childTwo = childOne + 1;
+			
+			if(childOne > size || childTwo > size) {
 				return;
 			}
 			
-			//FIXME
-			index *= 2;
+			minimumChild = 0;
+			
+			if(heap_array[childOne] == null && heap_array[childTwo] == null) {
+				return;
+			}
+			
+			if(heap_array[childOne] == null && this.compare(heap_array[index], heap_array[childOne]) > 0) {
+				this.swap(index, childOne);
+				return;
+			}
+			
+			if(heap_array[childTwo] == null && this.compare(heap_array[index], heap_array[childTwo]) > 0) {
+				this.swap(index, childTwo);
+				return;
+			}
+			
+			//Choose the smallest child.
+			if(this.compare(heap_array[childOne], heap_array[childTwo]) < 0) {
+				minimumChild = childOne;
+			} else {
+				minimumChild = childTwo;
+			}
 			
 		}
 		
