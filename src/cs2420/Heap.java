@@ -68,10 +68,13 @@ public class Heap<Type> implements Priority_Queue<Type>
 	}
 	
 	/**
-	 * Removes and returns the minimum item in this priority queue.
+	 * Removes and returns the minimum item in this priority queue
+	 * ASSUMING THAT THE QUEUE IS A MAXIMUM HEAP.
 	 * 
 	 * This O(N) dequeue function has been kept to compare timing
 	 * with the efficient O(logN) dequeue below.
+	 * 
+	 * (This is for testing purposes; please disregard.)
 	 * 
 	 * @throws NoSuchElementException if this priority queue is empty.
 	 * (Runs in N time.)
