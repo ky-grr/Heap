@@ -247,11 +247,9 @@ public class Heap<Type> implements Priority_Queue<Type>
 			}
 			
 			//If there is a right child, compare it with the left to find the minimum value.
-			if(heap_array[childTwo] != null) {
-				if(this.compare(heap_array[childOne], heap_array[childTwo]) > 0) {
+			if(heap_array[childTwo] != null && this.compare(heap_array[childOne], heap_array[childTwo]) > 0) {
 					
 					minimumChild = childTwo;
-				}
 			}
 
 			//If the parent is greater than the child, swap; otherwise, we are finished bubbling down.
