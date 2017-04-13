@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
  * 
  * The min heap is implemented implicitly as an array.
  * 
- * @author
+ * @author germain & Kylee Fluckiger & Chloe Josien
  */
 public class Heap<Type> implements Priority_Queue<Type>
 {
@@ -60,6 +60,8 @@ public class Heap<Type> implements Priority_Queue<Type>
 	 * Construct an empty priority queue with a specified comparator.
 	 * 
 	 * Orders elements according to the input Comparator (i.e., AnyType need not be Comparable).
+	 * 
+	 * @param comparator c
 	 */
 	public Heap( Comparator<? super Type> c )
 	{
@@ -168,7 +170,7 @@ public class Heap<Type> implements Priority_Queue<Type>
 	 * This function resizes the backing store by copying all of the array to a new array of a larger capacity.
 	 */
 	@SuppressWarnings("unchecked")
-	public void resize() {
+	private void resize() {
 		
 		Type[] bigArray = (Type[]) new Object[heap_array.length*2];
 		
@@ -253,7 +255,7 @@ public class Heap<Type> implements Priority_Queue<Type>
 			}
 			
 			//If there is a right child, compare it with the left to find the minimum value.
-			if(heap_array[childTwo] != null && this.compare(heap_array[childOne], heap_array[childTwo]) > 0) {
+			if(childTwo < size && heap_array[childTwo] != null && this.compare(heap_array[childOne], heap_array[childTwo]) > 0) {
 					
 					minimumChild = childTwo;
 			}
@@ -346,6 +348,9 @@ public class Heap<Type> implements Priority_Queue<Type>
 	 * Internal method for comparing lhs and rhs using Comparator if provided by the
 	 * user at construction time, or Comparable, if no Comparator was
 	 * provided.
+	 * 
+	 * @param lhs, the first item
+	 * @param rhs, the second item
 	 */
 	@SuppressWarnings("unchecked")
 	private int compare( Type lhs, Type rhs )
@@ -405,16 +410,34 @@ public class Heap<Type> implements Priority_Queue<Type>
 	 * @param array
 	 *            - random data (unordered)
 	 */
+	@SuppressWarnings("unchecked")
 	public void build_heap_from_array( Type[] array )
 	{
 		
-		//FIXME
-		// WARNING: advanced work only worth 2.5% of grade
-		// If you do not fully implement this code, leave it blank
+		heap_array = (Type[]) new Object[array.length+1];
+		
+		//Copy the array into the heap array.
+		for(int count=0; count<array.length;count++){
+			
+			heap_array[count+1]= array[count];
+			size++;
+		}
+
+		//Begin bubbling down from the second to bottom layer.
+		for(int index=size/2; index>1; index--) {
+			
+			this.bubbleDown(index-1);
+		}
+		
+		//Catch possible stragglers.
+		this.bubbleUp(size);
+		this.bubbleUp(size-1);
+
 	}
 
 	/**
-	 * convert the heap array into a sorted array from largest to smallest
+	 * convert the heap array into a sorted array from largest to smallest by shrinking the virtual
+	 * array and placing each dequeued item at the next available empty space in the physical array.
 	 * 
 	 * Note: this destroys the heap property of the array and should be a terminal operation, which
 	 *       is not what we would likely do in a real program, but is appropriate to for our purposes (i.e.,
@@ -424,6 +447,7 @@ public class Heap<Type> implements Priority_Queue<Type>
 	public void heap_sort()
 	{
 		
+		//Dequeue every item and place at the end of the virtual array/beginning of remaining physical array.
 		for(int index=0; index<heap_array.length; index++) {
 			
 			if(heap_array[index] != null) {
@@ -432,13 +456,6 @@ public class Heap<Type> implements Priority_Queue<Type>
 				heap_array[size+1] = poppedItem;
 			}
 		}	
-		
-		//build heap
-		//dequeue heap, add to array
-		
-		//FIXME
-		// WARNING: advanced work only worth 2.5% of grade
-		// If you do not fully implement this code, leave it blank
 
 	}
 
