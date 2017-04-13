@@ -126,10 +126,10 @@ public class Heap<Type> implements Priority_Queue<Type>
 		Type returnType = heap_array[1];
 		
 		heap_array[1] = heap_array[size];
-		
-		this.bubbleDown(1);
+
 		size--;
-		
+		this.bubbleDown(1);
+
 		return returnType;
 		
 	}
@@ -236,7 +236,7 @@ public class Heap<Type> implements Priority_Queue<Type>
 		int childTwo = 0;
 		int minimumChild = 0;
 		
-		while(heap_array[index*2] != null && (index*2 <= size)) {
+		while(index*2 <= size && heap_array[index*2] != null) {
 			
 			childOne = index * 2;
 			childTwo = childOne + 1;
