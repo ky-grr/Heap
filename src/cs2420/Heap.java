@@ -123,10 +123,13 @@ public class Heap<Type> implements Priority_Queue<Type>
 			throw new NoSuchElementException();
 		}
 		
+		//Store the minimum element to return.
 		Type returnType = heap_array[1];
 		
+		//Take the most recently added element and place it at the top of the heap.
 		heap_array[1] = heap_array[size];
 
+		//Decrement the size and sink the top element down to its proper location.
 		size--;
 		this.bubbleDown(1);
 
@@ -169,6 +172,7 @@ public class Heap<Type> implements Priority_Queue<Type>
 		
 		Type[] bigArray = (Type[]) new Object[heap_array.length*2];
 		
+		//Copy the array over to the new one exactly.
 		for(int index=0; index<heap_array.length; index++) {
 			bigArray[index] = heap_array[index];
 		}
@@ -185,14 +189,15 @@ public class Heap<Type> implements Priority_Queue<Type>
 	 */
 	public void bubbleUp(int index) {
 		
+		if(size==1) {
+			return;
+		}
+		
+		//Mathematical relationship between parent and children.
 		int parent = index/(int)2;
 		
 		//Used for timing analysis; if the element must be moved, set to true.
 		boolean bubbledUp = false;
-		
-		if(size==1) {
-			return;
-		}
 	
 		//Move the element up while it is less than its parent element.
 		while((this.compare(heap_array[index], heap_array[parent]) < 0)) {
@@ -236,6 +241,7 @@ public class Heap<Type> implements Priority_Queue<Type>
 		int childTwo = 0;
 		int minimumChild = 0;
 		
+		//While we are still within the bounds of the heap and have a child:
 		while(index*2 <= size && heap_array[index*2] != null) {
 			
 			childOne = index * 2;
@@ -263,6 +269,7 @@ public class Heap<Type> implements Priority_Queue<Type>
 				return;
 			}
 			
+			//Move the cursor down to the element's new location.
 			index = minimumChild;
 			
 		}
