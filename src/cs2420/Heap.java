@@ -424,6 +424,15 @@ public class Heap<Type> implements Priority_Queue<Type>
 	public void heap_sort()
 	{
 		
+		for(int index=0; index<heap_array.length; index++) {
+			
+			if(heap_array[index] != null) {
+				
+				Type poppedItem = this.dequeue();
+				heap_array[size+1] = poppedItem;
+			}
+		}	
+		
 		//build heap
 		//dequeue heap, add to array
 		
