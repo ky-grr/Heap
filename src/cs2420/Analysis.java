@@ -73,6 +73,37 @@ public class Analysis {
 //		}
 		
 		//Separate loop for build_heap_from_array.
+//		for(int numberOfElements = 10000; numberOfElements<=300000; numberOfElements+=10000) {
+//			
+//			Random generator = new Random();
+//			
+//			long startBuild = 0;
+//			long totalBuild = 0;
+//			
+//			//Build the array.
+//			Integer[] array = new Integer[numberOfElements];
+//			
+//			for(int index=0; index<numberOfElements; index++) {
+//				array[index] = generator.nextInt(1000);
+//			}
+//			
+//			//Averaging loop.
+//			for(int averagingCount=0; averagingCount<25; averagingCount++) {
+//				
+//				Heap<Integer> heap = new Heap<>();
+//				
+//				startBuild = System.nanoTime();
+//				heap.build_heap_from_array(array);
+//				totalBuild += System.nanoTime() - startBuild;
+//				
+//			}
+//			
+//			System.out.println("Number of Elements\n" + numberOfElements);
+//			System.out.println(totalBuild/25);
+//			
+//		}
+		
+		//Separate loop for heap_sort.
 		for(int numberOfElements = 10000; numberOfElements<=300000; numberOfElements+=10000) {
 			
 			Random generator = new Random();
@@ -91,9 +122,12 @@ public class Analysis {
 			for(int averagingCount=0; averagingCount<25; averagingCount++) {
 				
 				Heap<Integer> heap = new Heap<>();
+				for(int num=0;num<array.length;num++){
+					heap.add(array[num]);
+				}
 				
 				startBuild = System.nanoTime();
-				heap.build_heap_from_array(array);
+				heap.heap_sort();
 				totalBuild += System.nanoTime() - startBuild;
 				
 			}
